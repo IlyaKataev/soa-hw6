@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package warehouse.v1;
+
+option go_package = "warehouse/gen/warehouse/v1;warehousev1";
+
+message WarehouseEvent {
+  string event_id = 1;
+  string event_type = 2;
+  int64 timestamp = 3;
+
+  oneof payload {
+    ProductReceived product_received = 4;
+    ProductShipped product_shipped = 5;
+    ProductMoved product_moved = 6;
+    ProductReserved product_reserved = 7;
+    ProductReleased product_released = 8;
+    InventoryCounted inventory_counted = 9;
+    OrderCreated order_created = 10;
+    OrderCompleted order_completed = 11;
+  }
+}
+
+message ProductReceived {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 quantity = 3;
+  optional string supplier_id = 4;
+}
+
+message ProductShipped {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 quantity = 3;
+}
+
+message ProductMoved {
+  string product_id = 1;
+  string from_zone_id = 2;
+  string to_zone_id = 3;
+  int32 quantity = 4;
+}
+
+message ProductReserved {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 quantity = 3;
+  string order_id = 4;
+}
+
+message ProductReleased {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 quantity = 3;
+  string order_id = 4;
+}
+
+message InventoryCounted {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 counted_quantity = 3;
+}
+
+message OrderItem {
+  string product_id = 1;
+  string zone_id = 2;
+  int32 quantity = 3;
+}
+
+message OrderCreated {
+  string order_id = 1;
+  repeated OrderItem items = 2;
+}
+
+message OrderCompleted {
+  string order_id = 1;
+}

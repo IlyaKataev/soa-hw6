@@ -1,0 +1,11 @@
+*.log
+*.tmp
+*.bak
+*~
+.DS_Store
+.env
+.env.*
+coverage.out
+tmp/
+__pycache__/
+*.py[cod]

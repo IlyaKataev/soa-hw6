@@ -1,0 +1,10 @@
+groups:
+  - name: warehouse
+    rules:
+      - alert: WarehouseConsumerLagHigh
+        expr: sum(kafka_consumergroup_lag{consumergroup="warehouse-state-consumer", topic="warehouse-events"}) > 100
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Warehouse consumer lag is above 100 messages.

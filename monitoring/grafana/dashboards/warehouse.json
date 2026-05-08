@@ -1,0 +1,49 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0},
+      "id": 1,
+      "targets": [{"expr": "kafka_consumergroup_lag{consumergroup=\"warehouse-state-consumer\", topic=\"warehouse-events\"}", "legendFormat": "partition {{partition}}"}],
+      "title": "Kafka Consumer Lag",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0},
+      "id": 2,
+      "targets": [{"expr": "sum by (event_type) (rate(warehouse_events_processed_total[1m]))", "legendFormat": "{{event_type}}"}],
+      "title": "Events per Second",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0},
+      "id": 3,
+      "targets": [{"expr": "increase(warehouse_cassandra_write_errors_total[5m])"}],
+      "title": "Cassandra Write Errors",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8},
+      "id": 4,
+      "targets": [{"expr": "sum by (error_code) (increase(warehouse_dlq_events_total[5m]))", "legendFormat": "{{error_code}}"}],
+      "title": "DLQ Events",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["warehouse"],
+  "templating": {"list": []},
+  "time": {"from": "now-15m", "to": "now"},
+  "title": "Smart Warehouse",
+  "uid": "smart-warehouse"
+}

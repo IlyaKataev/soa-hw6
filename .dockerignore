@@ -1,0 +1,11 @@
+.git
+.idea
+.vscode
+tmp
+**/.DS_Store
+**/__pycache__
+**/*.pyc
+*.log
+.env
+.env.*
+coverage.out
