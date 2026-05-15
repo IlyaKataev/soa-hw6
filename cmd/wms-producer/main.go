@@ -82,6 +82,7 @@ func main() {
 	delivery := make(chan kafka.Event, *count)
 	defer close(delivery)
 
+	publishedKey := ""
 	for i := 0; i < *count; i++ {
 		currentEventID := baseEventID
 		if *count > 1 {
@@ -91,6 +92,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		publishedKey = key
 		value, err := serializeEvent(srClient, serializer, event, *schemaVersion)
 		if err != nil {
 			log.Fatal(err)
@@ -118,7 +120,7 @@ func main() {
 			log.Fatal("timed out waiting for delivery")
 		}
 	}
-	fmt.Printf("published count=%d event_type=%s product_id=%s\n", *count, strings.ToUpper(*eventType), *productID)
+	fmt.Printf("published count=%d event_type=%s key=%s\n", *count, strings.ToUpper(*eventType), publishedKey)
 }
 
 func serializeEvent(srClient schemaregistry.Client, serializer *protobuf.Serializer, event *pb.WarehouseEvent, schemaVersion int) ([]byte, error) {
